@@ -37,12 +37,12 @@ function testPriceMax(this: yup.TestContext<yup.AnyObject>) {
 }
 
 export const PriceSchema = yup.object({
-  priceMin: yup.string().test({
+  priceMin: yup.string().nullable().default("").test({
     name: "price-min-validate",
     message: "Giá tối thiểu không hợp lệ",
     test: testPriceMin,
   }),
-  priceMax: yup.string().test({
+  priceMax: yup.string().nullable().default("").test({
     name: "price-max-validate",
     message: "Giá tối đa không hợp lệ hoặc nhỏ hơn giá tối thiểu",
     test: testPriceMax,
@@ -50,8 +50,8 @@ export const PriceSchema = yup.object({
 });
 
 export const FilterSchema = yup.object({
-  name: yup.string(),
-  order: yup.string(),
+  name: yup.string().default(""),
+  order: yup.string().default(""),
 });
 
 export const LoginToOrderSchema = yup.object({
