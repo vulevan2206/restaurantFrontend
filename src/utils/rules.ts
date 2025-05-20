@@ -62,7 +62,7 @@ export const AddTableSchema = yup.object({
   tableNumber: yup.string().required("Bạn phải nhập bàn"),
   capacity: yup.string().required("Bạn phải nhập sức chứa"),
   token: yup.string().required("Bạn phải nhập token"),
-  status: yup.string(),
+  status: yup.string().required("Bạn phải chọn trạng thái"),
 });
 
 export const ProductSchema = yup.object({
