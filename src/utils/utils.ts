@@ -1,138 +1,112 @@
-import { toast } from "@/hooks/use-toast";
-import { AuthResponse, SuccessResponse } from "@/types/utils.type";
-import {
-  clearLS,
-  getAccessTokenFromLocalStorage,
-  getRefreshTokenFromLocalStorage,
-  setAccessTokenToLocalStorage,
-  setRefreshTokenToLocalStorage,
-  setUserToLocalStorage,
-} from "@/utils/auth";
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  HttpStatusCode,
-  InternalAxiosRequestConfig,
-} from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosError, HttpStatusCode } from "axios";
+import { toDataURL, QRCodeToDataURLOptions } from "qrcode";
+import { nanoid } from "nanoid";
 
-const URL_REFRESH_TOKEN = "auth/refresh-token";
-const URL_LOGIN = "auth/login";
-class HTTP {
-  instance: AxiosInstance;
-  access_token: string;
-  refresh_token: string;
-  refreshTokenRequest: Promise<string> | null;
-
-  constructor() {
-    this.instance = axios.create({
-      baseURL: "http://localhost:8080/api/",
-      timeout: 100000,
-    });
-
-    this.access_token = getAccessTokenFromLocalStorage();
-    this.refresh_token = getRefreshTokenFromLocalStorage();
-    this.refreshTokenRequest = null;
-
-    this.instance.interceptors.request.use(
-      (config) => {
-        if (this.access_token && config.headers) {
-          config.headers.Authorization = "Bearer " + this.access_token;
-        }
-        return config;
-      },
-      (error: AxiosError) => {
-        return Promise.reject(error);
-      }
-    );
-
-    this.instance.interceptors.response.use(
-      (response) => {
-        const { url } = response.config;
-        if (url === URL_LOGIN) {
-          this.access_token = (
-            response.data as SuccessResponse<AuthResponse>
-          ).data.accessToken;
-          this.refresh_token = (
-            response.data as SuccessResponse<AuthResponse>
-          ).data.refreshToken;
-          setAccessTokenToLocalStorage(
-            (response.data as SuccessResponse<AuthResponse>).data.accessToken
-          );
-          setRefreshTokenToLocalStorage(
-            (response.data as SuccessResponse<AuthResponse>).data.refreshToken
-          );
-          setUserToLocalStorage(
-            (response.data as SuccessResponse<AuthResponse>).data.user
-          );
-        }
-        return response;
-      },
-      (error: AxiosError) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data: any = error.response?.data;
-        if (
-          ![
-            HttpStatusCode.Unauthorized,
-            HttpStatusCode.UnprocessableEntity,
-          ].includes(error.response?.status as HttpStatusCode)
-        ) {
-          const message = data?.message || error.message;
-          toast({
-            variant: "destructive",
-            description: message,
-          });
-        }
-        if (
-          error.status === HttpStatusCode.Unauthorized &&
-          data?.data.name === "EXPIRED_TOKEN"
-        ) {
-          const config =
-            error.response?.config ||
-            ({ headers: {} } as InternalAxiosRequestConfig);
-          const { url } = config;
-          if (url !== URL_REFRESH_TOKEN) {
-            this.refreshTokenRequest = this.refreshTokenRequest
-              ? this.refreshTokenRequest
-              : this.handleRefreshToken().finally(() => {
-                  this.refreshTokenRequest = null;
-                });
-            return this.refreshTokenRequest?.then((accessToken) => {
-              return this.instance({
-                ...config,
-                headers: {
-                  ...config.headers,
-                  authorization: "Bearer " + accessToken,
-                },
-              });
-            });
-          }
-        }
-        return Promise.reject(error);
-      }
-    );
-  }
-
-  private handleRefreshToken() {
-    return this.instance
-      .post<SuccessResponse<AuthResponse>>(URL_REFRESH_TOKEN, {
-        refreshToken: this.refresh_token,
-      })
-      .then((res) => {
-        const { accessToken } = res.data.data;
-        setAccessTokenToLocalStorage(accessToken);
-        // setRefreshTokenToLocalStorage(refreshToken)
-        this.access_token = accessToken;
-        // this.refresh_token = refreshToken
-        return accessToken;
-      })
-      .catch((error) => {
-        clearLS();
-        this.access_token = "";
-        this.refresh_token = "";
-        throw error;
-      });
-  }
+export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
+  return axios.isAxiosError(error);
 }
 
-const http = new HTTP().instance;
-export default http;
+export function isAxiosUnprocessableEntity<FormError>(
+  error: unknown
+): error is AxiosError<FormError> {
+  return (
+    isAxiosError(error) &&
+    error.response?.status === HttpStatusCode.UnprocessableEntity
+  );
+}
+
+export function isAxiosUnauthorizedError<UnauthorizedError>(
+  error: unknown
+): error is AxiosError<UnauthorizedError> {
+  return (
+    isAxiosError(error) &&
+    error.response?.status === HttpStatusCode.Unauthorized
+  );
+}
+
+export function formatDateTime(isoString: string): string {
+  const date = new Date(isoString);
+
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
+export const parseDate = (dateStr?: string): Date | undefined => {
+  if (!dateStr) return undefined;
+  const [year, month, day] = dateStr.split("-").map(Number);
+  return new Date(year, month - 1, day + 1);
+};
+
+export const parseJWT = (token: string) => {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+
+    console.log(JSON.parse(jsonPayload));
+
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    console.error("Invalid JWT format", e);
+    return null;
+  }
+};
+
+export function formatCurrency(currency: number) {
+  return new Intl.NumberFormat("de-DE").format(currency);
+}
+
+export function generateShortUUID(length = 5) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+
+  return result;
+}
+
+const options: QRCodeToDataURLOptions = {
+  width: 400,
+  margin: 2,
+};
+
+export const getQRCode = (value: string) => {
+  let qrValue: string | undefined = undefined;
+
+  toDataURL(value, options, (err, url) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    qrValue = url;
+  });
+
+  return qrValue;
+};
+
+export const generateQRCode = (url: string) => {
+  const qrValue = getQRCode(url);
+  return qrValue;
+};
+
+export const generateTableToken = (length: number = 30) => {
+  const uuid = nanoid(length);
+  return uuid;
+};
