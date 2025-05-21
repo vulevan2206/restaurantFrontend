@@ -6,8 +6,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import banner1 from "@/assets/images/banners/banner_1.jpg";
-import banner2 from "@/assets/images/banners/banner_2.jpg";
+import slider1 from "@/assets/images/sliders/slider1.png";
+import slider2 from "@/assets/images/sliders/slider2.png";
+import slider3 from "@/assets/images/sliders/slider3.png";
+import slider4 from "@/assets/images/sliders/slider4.png";
+import slider5 from "@/assets/images/sliders/slider5.png";
+
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/apis/product.api";
 import { sortBy } from "@/constants/sortBy";
@@ -18,10 +22,19 @@ import { path } from "@/constants/path";
 
 const images = [
   {
-    src: banner1,
+    src: slider1,
   },
   {
-    src: banner2,
+    src: slider2,
+  },
+  {
+    src: slider3,
+  },
+  {
+    src: slider4,
+  },
+  {
+    src: slider5,
   },
 ] as const;
 
@@ -43,7 +56,7 @@ export default function Home() {
               <CarouselItem key={index}>
                 <img
                   src={image.src}
-                  alt="banner"
+                  alt="slider"
                   className="w-full h-full object-cover"
                 />
               </CarouselItem>
