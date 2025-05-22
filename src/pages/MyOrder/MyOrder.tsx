@@ -7,7 +7,7 @@ import { formatCurrency } from "@/utils/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { io } from "socket.io-client";
-
+import { BASE_SOCKET_URL } from "@/constants/config";
 export default function MyOrder() {
   const { customerName, customerId, tableNumber } = useContext(AppContext);
   const params = {
@@ -21,7 +21,7 @@ export default function MyOrder() {
     queryFn: () => getUserOrder(params),
   });
 
-  const socket = io("http://localhost:8080");
+  const socket = io(BASE_SOCKET_URL);
   socket.emit("registerUser", customerId);
   socket.on("orderUpdated", (data) => {
     toast({

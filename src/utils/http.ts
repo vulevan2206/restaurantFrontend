@@ -14,6 +14,7 @@ import axios, {
   HttpStatusCode,
   InternalAxiosRequestConfig,
 } from "axios";
+import { BASE_API_URL } from "@/constants/config";
 
 const URL_REFRESH_TOKEN = "auth/refresh-token";
 const URL_LOGIN = "auth/login";
@@ -25,7 +26,7 @@ class HTTP {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: "http://localhost:8080/api/",
+      baseURL: BASE_API_URL,
       timeout: 100000,
     });
 

@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "tsc -b && vite build --mode production",
+    "build:dev": "vite build --mode development",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",

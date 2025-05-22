@@ -25,6 +25,7 @@ import PaginationCustom from "@/components/dev/PaginationCustom";
 import { io } from "socket.io-client";
 import { toast } from "@/hooks/use-toast";
 import { isUndefined, omitBy } from "lodash";
+import { BASE_SOCKET_URL } from "@/constants/config";
 
 export default function ManageOrder() {
   const orderQueryConfig = useOrderQueryConfig();
@@ -119,7 +120,7 @@ export default function ManageOrder() {
     });
   }, [startDate, endDate]);
 
-  const socket = io("http://localhost:8080");
+  const socket = io(BASE_SOCKET_URL);
   socket.on("connect", () => {
     console.log("Connected to server: " + socket.id);
   });
