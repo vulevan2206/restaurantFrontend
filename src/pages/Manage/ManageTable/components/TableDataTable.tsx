@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { BASE_SOCKET_URL } from "@/constants/config";
 import { tableStatus } from "@/constants/tableStatus";
 import DialogDeleteTable from "@/pages/Manage/ManageTable/components/DialogDeleteTable";
 import DialogTable from "@/pages/Manage/ManageTable/components/DialogTable";
@@ -31,7 +32,7 @@ export default function TableDataTable({ tables }: Props) {
       </TableHeader>
       <TableBody>
         {tables.map((table) => {
-          const url = `http://localhost:3000/table/${table.table_number}?token=${table.token}`;
+          const url = `${BASE_SOCKET_URL}/table/${table.table_number}?token=${table.token}`;
           return (
             <TableRow key={table._id}>
               <TableCell>{table.table_number}</TableCell>
