@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <QueryClientProvider client={queryClient}>
         <AppProvider>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
