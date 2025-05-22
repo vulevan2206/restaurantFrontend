@@ -6,7 +6,7 @@ export interface OrderRequest {
   customer_name: string;
   customer_id: string;
   products: { id: string; buy_count: number }[];
-  assignee: string;
+  assignee?: string;
 }
 
 export type OrderStatusType =
