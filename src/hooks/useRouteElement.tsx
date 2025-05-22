@@ -23,6 +23,7 @@ function ProtectedRoute() {
 
 function RejectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
+  console.log("isAuthenticated?", isAuthenticated); 
   return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />;
 }
 
