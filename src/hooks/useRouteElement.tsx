@@ -13,6 +13,7 @@ import Menu from "@/pages/Menu";
 import MyOrder from "@/pages/MyOrder";
 import Setting from "@/pages/Setting";
 import Table from "@/pages/Table";
+import NotFound from "@/pages/NotFound";
 import { useContext } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
 
@@ -129,6 +130,14 @@ export default function useRouteElement() {
           ),
         },
       ],
+    },
+    {
+      path: "*",
+      element: (
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      ),
     },
   ]);
   return routeElement;
