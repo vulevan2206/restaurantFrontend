@@ -71,7 +71,7 @@ export default function Home() {
           Các món bán chạy nhất
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {products?.data.data.content.slice(0, 5).map((product) => (
+          {products?.data.data.content.filter((product) => product.status !== "UNAVAILABLE").slice(0, 5).map((product) => (
             <div
               key={product._id}
               className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
