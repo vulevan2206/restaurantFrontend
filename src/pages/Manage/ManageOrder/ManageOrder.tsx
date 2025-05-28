@@ -84,12 +84,20 @@ export default function ManageOrder() {
   );
 
   const handleReset = () => {
-    navigate(path.manageOrder);
+    const dummy = Date.now().toString();
+    navigate({
+      pathname: path.manageOrder,
+      search: createSearchParams({
+        _reset: dummy, 
+      }).toString(),
+    });
+    
     form.reset({
       customer_name: "",
       table_number: "",
       status: "",
     });
+    setStartDate(undefined);
   };
 
   const status = form.watch("status");

@@ -1,6 +1,7 @@
 import { deleteOrder } from "@/apis/order.api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 import useOrderQueryConfig from "@/hooks/useOrderQueryConfig";
 import { Order } from "@/types/order.type";
 import { TrashIcon } from "@radix-ui/react-icons";
@@ -18,7 +19,10 @@ export default function DialogDeleteOrder({ order }: Props) {
 
   const deleteOrderMutation = useMutation({
     mutationFn: () => deleteOrder(order._id),
-    onSuccess: () => {
+    onSuccess: (res) => {
+      toast({
+        description: res.data.message,
+      });
       setOpen(false);
       queryClient.invalidateQueries({
         queryKey: ["order-statistics", orderQueryConfig],
@@ -44,7 +48,7 @@ export default function DialogDeleteOrder({ order }: Props) {
           <Button variant="destructive" className="mr-4" onClick={handleDelete}>
             Xóa
           </Button>
-          <Button>Hủy</Button>
+          <Button onClick={() => setOpen(false)}>Hủy</Button>
         </div>
       </DialogContent>
     </Dialog>

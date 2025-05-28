@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 import useOrderQueryConfig from "@/hooks/useOrderQueryConfig";
 import DialogChooseProduct from "@/pages/Manage/ManageOrder/components/DialogChooseProduct";
 import { Order, OrderUpdateRequest } from "@/types/order.type";
@@ -37,7 +38,10 @@ export default function DialogUpdateOrder({ order }: Props) {
       buy_count: buyCount,
     };
     updateOrderMutation.mutate(params, {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        toast({
+          description: res.data.message,
+        });
         setOpen(false);
         queryClient.invalidateQueries({
           queryKey: ["order-statistics", orderQueryConfig],
