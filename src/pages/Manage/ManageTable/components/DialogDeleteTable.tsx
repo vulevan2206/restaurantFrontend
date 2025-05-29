@@ -45,7 +45,7 @@ export default function DialogDeleteTable({ table_id }: Props) {
           <Button variant="destructive" className="mr-4" onClick={handleDelete}>
             Xóa
           </Button>
-          <Button>Hủy</Button>
+          <Button onClick={() => setOpen(false)}>Hủy</Button>
         </div>
       </DialogContent>
     </Dialog>

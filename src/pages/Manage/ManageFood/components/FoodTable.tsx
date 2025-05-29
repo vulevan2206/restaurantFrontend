@@ -30,32 +30,40 @@ export default function FoodTable({ products }: Props) {
         <TableHead>Action</TableHead>
       </TableHeader>
       <TableBody>
-        {products.map((product) => (
-          <TableRow key={product._id} className="font-semibold">
-            <TableCell>{product._id}</TableCell>
-            <TableCell>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="size-16 rounded-lg object-cover mr-2"
-              />
-            </TableCell>
-            <TableCell>{product.category.name}</TableCell>
-            <TableCell>{product.name}</TableCell>
-            <TableCell>{product.description}</TableCell>
-            <TableCell className="italic text-destructive">
-              {formatCurrency(product.price)}đ
-            </TableCell>
-            <TableCell>{product.sold}</TableCell>
-            <TableCell>{product.view}</TableCell>
-            <TableCell>{product.status}</TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <DialogFood product={product} />
-              </div>
+        {products.length > 0 ? (
+          products.map((product) => (
+            <TableRow key={product._id} className="font-semibold">
+              <TableCell>{product._id}</TableCell>
+              <TableCell>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="size-16 rounded-lg object-cover mr-2"
+                />
+              </TableCell>
+              <TableCell>{product.category.name}</TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.description}</TableCell>
+              <TableCell className="italic text-destructive">
+                {formatCurrency(product.price)}đ
+              </TableCell>
+              <TableCell>{product.sold}</TableCell>
+              <TableCell>{product.view}</TableCell>
+              <TableCell>{product.status}</TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <DialogFood product={product} />
+                </div>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={10} className="text-center italic py-4">
+              Không có món ăn phù hợp
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );

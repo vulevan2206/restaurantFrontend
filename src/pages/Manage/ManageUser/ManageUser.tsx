@@ -92,22 +92,30 @@ export default function ManageUser() {
             </TableRow>
           </TableHeader>
           <TableBody className="font-semibold">
-            {users?.data.data.content.map((user) => (
-              <TableRow key={user._id}>
-                <TableCell>{user._id}</TableCell>
-                <TableCell>
-                  <AvatarCustom url={user.avatar} className="size-16" />
-                </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.password}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.isActive ? "Sử dụng" : "Đã khóa"}</TableCell>
-                <TableCell>
-                  <DialogUser user={user} />
+            {users && users?.data.data.content.length > 0 ? (
+              users.data.data.content.map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user._id}</TableCell>
+                  <TableCell>
+                    <AvatarCustom url={user.avatar} className="size-16" />
+                  </TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.password}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell>{user.isActive ? "Sử dụng" : "Đã khóa"}</TableCell>
+                  <TableCell>
+                    <DialogUser user={user} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center italic py-4">
+                  Không có nhân viên phù hợp
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>

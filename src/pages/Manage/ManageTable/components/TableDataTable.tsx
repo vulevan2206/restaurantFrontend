@@ -31,24 +31,35 @@ export default function TableDataTable({ tables }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tables.map((table) => {
-          const url = `${BASE_APP_URL}/table/${table.table_number}?token=${table.token}`;
-          return (
-            <TableRow key={table._id}>
-              <TableCell>{table.table_number}</TableCell>
-              <TableCell>{table.capacity}</TableCell>
-              <TableCell>{table.current}</TableCell>
-              <TableCell>{tableStatus[table.status]}</TableCell>
-              <TableCell>
-                <img src={generateQRCode(url)} alt="qr-code" />
-              </TableCell>
-              <TableCell className="space-x-2">
-                <DialogTable table={table} />
-                <DialogDeleteTable table_id={table._id} />
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {tables.length > 0 ? (
+          tables.map((table) => {
+            const url = `${BASE_APP_URL}/table/${table.table_number}?token=${table.token}`;
+            return (
+              <TableRow key={table._id}>
+                <TableCell>{table.table_number}</TableCell>
+                <TableCell>{table.capacity}</TableCell>
+                <TableCell>{table.current}</TableCell>
+                <TableCell>{tableStatus[table.status]}</TableCell>
+                <TableCell>
+                  <img src={generateQRCode(url)} alt="qr-code" />
+                </TableCell>
+                <TableCell className="space-x-2">
+                  <DialogTable table={table} />
+                  <DialogDeleteTable table_id={table._id} />
+                </TableCell>
+              </TableRow>
+            );
+          })
+        ) : (
+          <TableRow>
+            <TableCell
+              colSpan={6}
+              className="text-center py-4 italic"
+            >
+              Không có bàn ăn phù hợp
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

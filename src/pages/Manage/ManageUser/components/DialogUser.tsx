@@ -16,6 +16,7 @@ import { toast } from "@/hooks/use-toast";
 import { User, UserRequest } from "@/types/user.type";
 import { FormControlItem } from "@/types/utils.type";
 import { UserSchema } from "@/utils/rules";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
@@ -48,8 +49,9 @@ export default function DialogUser({ user }: Props) {
       isActive: String(user?.isActive ?? ""),
       password: "",
     },
+    resolver: yupResolver(UserSchema),
   });
-
+  
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0];
     setFile(fileFromLocal);

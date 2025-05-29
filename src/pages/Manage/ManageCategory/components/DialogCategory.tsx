@@ -16,7 +16,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { CategorySchema } from "@/utils/rules";
+import { yupResolver } from "@hookform/resolvers/yup";
 interface Props {
   readonly category?: Category;
 }
@@ -29,6 +30,7 @@ export default function DialogCategory({ category }: Props) {
     defaultValues: {
       name: category ? category.name : "",
     },
+    resolver: yupResolver(CategorySchema),
   });
 
   const createCategoryMutation = useMutation({

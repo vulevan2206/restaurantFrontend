@@ -75,10 +75,10 @@ export const ProductSchema = yup.object({
 
 export const UserSchema = yup.object({
   name: yup.string().required("Bạn phải nhập tên"),
-  email: yup.string().required("Bạn phải nhập email").email(),
-  role: yup.string().required("Bạn phải chọn role"),
+  email: yup.string().required("Bạn phải nhập email").email("Email không hợp lệ"),
+  role: yup.string().required("Bạn phải chọn vai trò"),
   isActive: yup.string().required("Bạn phải chọn tình trạng tài khoản"),
-  password: yup.string().required("Bạn phải nhập mật khẩu"),
+  password: yup.string().required("Bạn phải nhập mật khẩu").min(6, "Mật khẩu phải có tối thiểu 6 kí tự"),
 });
 
 export const LoginSchema = yup.object({
@@ -87,7 +87,7 @@ export const LoginSchema = yup.object({
 });
 
 export const UserInformationSchema = yup.object({
-  name: yup.string().required("Bạn phải nhập mật khẩu"),
+  name: yup.string().required("Bạn phải nhập tên"),
 });
 
 export const ChangePasswordSchema = yup.object({
@@ -97,11 +97,15 @@ export const ChangePasswordSchema = yup.object({
     .min(6, "Mật khẩu phải có tối thiểu 6 kí tự"),
   newPassword: yup
     .string()
-    .required("Bạn phải nhập mật khẩu")
+    .required("Bạn phải nhập mật khẩu mới")
     .min(6, "Mật khẩu phải có tối thiểu 6 kí tự"),
   confirmPassword: yup
     .string()
-    .required("Bạn phải nhập lại mật khẩu")
+    .required("Bạn phải nhập lại mật khẩu mới")
     .min(6, "Mật khẩu phải có tối thiểu 6 kí tự")
     .oneOf([yup.ref("newPassword")], "Mật khẩu không khớp"),
+});
+
+export const CategorySchema = yup.object({
+  name: yup.string().trim().required("Bạn phải nhập tên danh mục"),
 });

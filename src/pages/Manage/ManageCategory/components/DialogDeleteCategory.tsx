@@ -54,7 +54,7 @@ export default function DialogDeleteCategory({ category }: Props) {
           <Button variant="destructive" onClick={handleDeleteCategory}>
             Xóa
           </Button>
-          <Button>Hủy</Button>
+          <Button onClick={()=>setOpen(false)}>Hủy</Button>
         </div>
       </DialogContent>
     </Dialog>
