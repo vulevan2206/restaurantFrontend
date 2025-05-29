@@ -84,14 +84,8 @@ export default function ManageOrder() {
   );
 
   const handleReset = () => {
-    const dummy = Date.now().toString();
-    navigate({
-      pathname: path.manageOrder,
-      search: createSearchParams({
-        _reset: dummy, 
-      }).toString(),
-    });
-    
+    navigate(path.manageOrder);
+
     form.reset({
       customer_name: "",
       table_number: "",
