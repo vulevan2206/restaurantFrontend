@@ -1,54 +1,47 @@
-# React + TypeScript + Vite
+# restaurantFrontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Deploy](#deploy)
 
-Currently, two official plugins are available:
+## Overview
+**restaurantFrontend** is the front-end of the Restaurant Management and Smart Ordering website using **React**, **TypeScript**, and **Vite**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### **The core features include**
+- 🎨 **TypeScript Configuration:**  Ensures type safety and modular development, reducing runtime errors.
+- ⚡ **Vite Integration:** Provides a fast development environment with hot module replacement, enhancing productivity.
+- 🌈 **Tailwind CSS Support:** Facilitates a customizable design system for responsive layouts.
+- 🛠️ **ESLint Integration:** Promotes code quality and consistency, minimizing bugs.
+- 📦 **Modular Component Structure:**  Enhances reusability and organization for complex UIs.
 
-## Expanding the ESLint configuration
+## Getting Started
+### Prerequisites
+This project requires the following dependencies:  
+- **Programming Language:** TypeScript  
+- **Package Manager:** Yarn 
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Installation
+Build **restaurantFrontend** from the source and install dependencies:
+1. Clone the repository
+```sh
+git clone https://github.com/vulevan2206/restaurantFrontend
+```
+2. Navigate to the project directory
+```sh
+cd restaurantFrontend
+```
+3. Install dependencies:
+```sh
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Usage
+```sh
+yarn dev
 ```
+## Deploy
+The project is deployed and live at (https://restaurantfrontend-a8z7.onrender.com/).
