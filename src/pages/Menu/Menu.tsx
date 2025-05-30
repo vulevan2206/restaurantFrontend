@@ -188,14 +188,20 @@ export default function Menu() {
           </Form>
           <Separator className="my-4" />
           <div className="grid grid-cols-12 gap-4">
-            {products?.data.data.content.map((product) => (
-              <div
-                key={product._id}
-                className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
-              >
-                <ProductCard product={product} />
+            {products?.data.data.content.length === 0 ? (
+              <div className="col-span-12 text-center text-muted-foreground">
+                Không có món ăn nào phù hợp
               </div>
-            ))}
+            ) : (
+              products?.data.data.content.map((product) => (
+                <div
+                  key={product._id}
+                  className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))
+            )}
           </div>
         </div>
         <PaginationCustom
