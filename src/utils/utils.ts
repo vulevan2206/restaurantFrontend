@@ -28,6 +28,7 @@ export function isAxiosUnauthorizedError<UnauthorizedError>(
 export function formatDateTime(isoString: string): string {
   const date = new Date(isoString);
 
+  date.setHours(date.getHours() + 7);
   const day = String(date.getUTCDate()).padStart(2, "0");
   const month = String(date.getUTCMonth() + 1).padStart(2, "0");
   const year = date.getUTCFullYear();

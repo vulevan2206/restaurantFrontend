@@ -40,7 +40,7 @@ export default function ManageOrder() {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>(() => {
     const date = new Date();
-    date.setHours(0, 0, 0, 0);
+    date.setHours(23,59,59,999);
     return date;
   });
 

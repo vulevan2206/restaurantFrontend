@@ -63,9 +63,9 @@ export default function Table() {
   });
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/4 border rounded-lg px-6 py-4 mt-6">
-        <h1 className="font-bold text-center mb-2 text-xl">
+    <div className="flex justify-center px-4">
+      <div className="w-full max-w-sm border rounded-lg px-6 py-4 mt-6 shadow-md">
+        <h1 className="font-bold text-center mb-4 text-xl">
           Đăng nhập gọi món
         </h1>
         <Form {...form}>
@@ -76,7 +76,7 @@ export default function Table() {
               placeholder="Tên"
               label="Tên"
             />
-            <Button className="mt-2 w-full">Đăng nhập</Button>
+            <Button className="mt-4 w-full">Đăng nhập</Button>
           </form>
         </Form>
       </div>
