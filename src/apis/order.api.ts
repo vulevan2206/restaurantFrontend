@@ -5,6 +5,7 @@ import {
   OrderRequest,
   OrderStatistic,
   OrderUpdateRequest,
+  StatisticsOrderByTableResponse,
   TableStatistic,
 } from "@/types/order.type";
 import { PaginationResponse, SuccessResponse } from "@/types/utils.type";
@@ -50,3 +51,9 @@ export const findCustomer = (customer_id: string) =>
       customer_id,
     },
   });
+
+export const getStatisticsOrderByTable = (params: OrderQueryConfig) =>
+  http.get<SuccessResponse<PaginationResponse<StatisticsOrderByTableResponse>>>(
+    "orders/statistics-order-by-table", 
+    { params }
+  );

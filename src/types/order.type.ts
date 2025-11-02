@@ -66,6 +66,48 @@ export interface OrderStatistic {
   cntPaidOrder: number;
 }
 
+export interface OrderWithProducts {
+  _id: string;
+  table_number: number;
+  customer_name: string;
+  customer_id: string;
+  assignee?: User;
+  product: Product[]; 
+  buy_count: number;
+  status: OrderStatusType;
+  createdAt: string;
+  updatedAt: string;
+}
+
+
+export interface TableStatisticWithOrders {
+  table_number: number;  
+  orders: OrderWithProducts[];  
+  cntInprogressOrder: number;  
+  cntCookingOrder: number;  
+  cntRejectedOrder: number;  
+  cntServedOrder: number;  
+  cntPaidOrder: number;  
+}
+
+
+
+export interface StatisticsOrderByTableResponse {
+  message: string;  
+  data: {
+    content: TableStatisticWithOrders[];  
+    pagination: Pagination; 
+  };
+}
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  pageSize: number;
+  total: number;
+}
+
+
 export interface Customer {
   table_number: number;
   customer_name: string;
