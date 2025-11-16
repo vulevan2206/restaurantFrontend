@@ -15,6 +15,9 @@ import Setting from "@/pages/Setting";
 import Table from "@/pages/Table";
 import Kitchen from "@/pages/Kitchen";
 import NotFound from "@/pages/NotFound";
+
+import MomoPayment from "@/pages/MyOrder/MonoPayment";
+
 import { useContext } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
 
@@ -92,6 +95,15 @@ export default function useRouteElement() {
       element: (
         <MainLayout>
           <MyOrder />
+        </MainLayout>
+      ),
+    },
+        {
+      path: path.momoPayment,
+      index: true,
+      element: (
+        <MainLayout>
+          <MomoPayment />
         </MainLayout>
       ),
     },

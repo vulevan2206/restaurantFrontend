@@ -3,6 +3,7 @@ export const path = {
   menu: "/menu",
   table: "/table/:tableNumber",
   myOrder: "/my-order",
+  momoPayment: "/my-order/payment/momo",
   login: "/login",
   manage: "/manage",
   kitchen: "/manage/kitchen",
