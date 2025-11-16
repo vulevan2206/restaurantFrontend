@@ -5,6 +5,7 @@ export const path = {
   myOrder: "/my-order",
   login: "/login",
   manage: "/manage",
+  kitchen: "/manage/kitchen",
   manageOrder: "/manage/orders",
   manageTable: "/manage/tables",
   manageUser: "/manage/users",

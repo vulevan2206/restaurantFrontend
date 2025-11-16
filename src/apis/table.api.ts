@@ -31,3 +31,40 @@ export const leaveTable = (table_number: number) =>
       table_number,
     },
   });
+
+// Table Session APIs
+export const checkTableSession = (table_number: number) =>
+  http.get<
+    SuccessResponse<{
+      hasActiveSession: boolean;
+      session: {
+        table_number: number;
+        customer_id: string;
+        customer_name: string;
+        is_active: boolean;
+        logged_in_at: string;
+        last_activity: string;
+      } | null;
+    }>
+  >("tables/session/check", {
+    params: {
+      table_number,
+    },
+  });
+
+export const createTableSession = (body: {
+  table_number: number;
+  customer_id: string;
+  customer_name: string;
+  token: string;
+}) => http.post<SuccessResponse<any>>("tables/session/create", body);
+
+export const unlockTableSession = (body: {
+  table_number: number;
+  customer_id?: string;
+}) => http.post<SuccessResponse<string>>("tables/session/unlock", body);
+
+export const updateSessionActivity = (customer_id: string) =>
+  http.post<SuccessResponse<string>>("tables/session/activity", {
+    customer_id,
+  });

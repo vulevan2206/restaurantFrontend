@@ -20,4 +20,5 @@ export interface TableListConfig {
   page?: number;
   limit?: number;
   tableNumber?: number;
+  capacity?: number;
 }

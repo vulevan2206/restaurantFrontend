@@ -13,6 +13,7 @@ import Menu from "@/pages/Menu";
 import MyOrder from "@/pages/MyOrder";
 import Setting from "@/pages/Setting";
 import Table from "@/pages/Table";
+import Kitchen from "@/pages/Kitchen";
 import NotFound from "@/pages/NotFound";
 import { useContext } from "react";
 import { Navigate, Outlet, useRoutes } from "react-router-dom";
@@ -31,6 +32,25 @@ function RejectedRoute() {
 function AdminProtectedRoute() {
   const { user } = useContext(AppContext);
   return user?.role === "ADMIN" ? (
+    <Outlet />
+  ) : (
+    <Navigate to={path.manageOrder} />
+  );
+}
+
+function ChefProtectedRoute() {
+  const { user } = useContext(AppContext);
+  // CHEF chỉ có thể truy cập Kitchen
+  if (user?.role === "CHEF") {
+    return <Navigate to={path.kitchen} />;
+  }
+  return <Outlet />;
+}
+
+function ChefOnlyRoute() {
+  const { user } = useContext(AppContext);
+  // Chỉ CHEF mới có thể truy cập
+  return user?.role === "CHEF" ? (
     <Outlet />
   ) : (
     <Navigate to={path.manageOrder} />
@@ -84,31 +104,47 @@ export default function useRouteElement() {
           element: <ManageLayout />,
           children: [
             {
-              path: path.manageOrder,
-              element: <ManageOrder />,
+              path: "",
+              element: <ChefOnlyRoute />,
+              children: [
+                {
+                  path: "kitchen",
+                  element: <Kitchen />,
+                },
+              ],
             },
             {
-              path: path.manageSettings,
-              element: <Setting />,
+              path: "",
+              element: <ChefProtectedRoute />,
+              children: [
+                {
+                  path: "orders",
+                  element: <ManageOrder />,
+                },
+                {
+                  path: "settings",
+                  element: <Setting />,
+                },
+              ],
             },
             {
               path: "",
               element: <AdminProtectedRoute />,
               children: [
                 {
-                  path: path.manageTable,
+                  path: "tables",
                   element: <ManageTable />,
                 },
                 {
-                  path: path.manageCategory,
+                  path: "categories",
                   element: <ManageCategory />,
                 },
                 {
-                  path: path.manageFood,
+                  path: "foods",
                   element: <ManageFood />,
                 },
                 {
-                  path: path.manageUser,
+                  path: "users",
                   element: <ManageUser />,
                 },
               ],
