@@ -8,11 +8,19 @@ import {
   StatisticsOrderByTableResponse,
   TableStatistic,
 } from "@/types/order.type";
+import { MomoPaymentParams } from "@/types/payment.type";
 import { PaginationResponse, SuccessResponse } from "@/types/utils.type";
 import http from "@/utils/http";
 
 export const addOrder = (body: OrderRequest) =>
   http.post<SuccessResponse<string>>("orders", body);
+
+
+export const createMomoPaymentQR = (body: MomoPaymentParams) =>
+  http.post<SuccessResponse<{ payUrl: string }>>(
+    "orders/payment/momo/create-qr",
+    body
+  );
 
 export const getUserOrder = (params: {
   customer_id: string;
