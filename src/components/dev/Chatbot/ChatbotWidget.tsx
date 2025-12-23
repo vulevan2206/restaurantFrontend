@@ -69,7 +69,7 @@ export default function ChatbotWidget({
 
       {/* Chat Window */}
       {open && (
-        <div 
+        <div
           className={clsx(
             "flex flex-col overflow-hidden bg-white shadow-2xl transition-all duration-300 animate-in fade-in zoom-in-95 slide-in-from-bottom-10",
             // Responsive: Mobile chiếm gần hết màn hình, Desktop cố định size
@@ -91,7 +91,7 @@ export default function ChatbotWidget({
                 <span className="text-[10px] opacity-80">Trực tuyến</span>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setOpen(false)}
               className="hover:bg-black/10 p-1 rounded-full transition-colors"
             >
@@ -116,7 +116,9 @@ export default function ChatbotWidget({
                       ? "rounded-[20px] rounded-tr-none text-white"
                       : "rounded-[20px] rounded-tl-none bg-white text-gray-800 border border-gray-100"
                   )}
-                  style={msg.role === "user" ? { backgroundColor: primaryColor } : {}}
+                  style={
+                    msg.role === "user" ? { backgroundColor: primaryColor } : {}
+                  }
                 >
                   {msg.content}
                 </div>
@@ -143,10 +145,14 @@ export default function ChatbotWidget({
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Nhập tin nhắn..."
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  !e.nativeEvent.isComposing &&
+                  handleSend()
+                }
+                placeholder="Hỏi món ăn, giá, gợi ý..."
                 className="w-full rounded-full border border-gray-200 bg-gray-50 py-3 pl-4 pr-12 text-sm text-black outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-opacity-50"
-                style={{ '--tw-ring-color': primaryColor } as any}
+                style={{ "--tw-ring-color": primaryColor } as any}
               />
               <button
                 onClick={handleSend}

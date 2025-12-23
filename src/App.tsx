@@ -23,12 +23,7 @@ function App() {
       {routes}
       <ReactQueryDevtools initialIsOpen={false} />
 
-      <ChatbotWidget
-        primaryColor="#ff7a00"
-        onSend={async (message) => {
-          return await sendChatbotMessage(message);
-        }}
-      />
+      <ChatbotWidget onSend={sendChatbotMessage} />
 
       <Toaster />
     </div>

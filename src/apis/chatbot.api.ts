@@ -1,22 +1,17 @@
+import { SuccessResponse } from "@/types/utils.type";
+import http from "@/utils/http";
+
 export interface ChatbotResponse {
   reply: string;
 }
 
-export const sendChatbotMessage = async (
-  message: string
-): Promise<string> => {
-  const res = await fetch("http://localhost:8080/api/chatbot/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message })
-  });
+export const sendChatbotMessage = async (message: string): Promise<string> => {
+  const res = await http.post<SuccessResponse<ChatbotResponse>>(
+    "/chatbot/chat",
+    {
+      message,
+    }
+  );
 
-  if (!res.ok) {
-    throw new Error("Chatbot API error");
-  }
-
-  const data: ChatbotResponse = await res.json();
-  return data.reply;
+  return (res.data as any).reply;
 };
