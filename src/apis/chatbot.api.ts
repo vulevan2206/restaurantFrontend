@@ -13,5 +13,5 @@ export const sendChatbotMessage = async (message: string): Promise<string> => {
     }
   );
 
-  return (res.data as any).reply;
+  return res.data.data.reply;
 };
