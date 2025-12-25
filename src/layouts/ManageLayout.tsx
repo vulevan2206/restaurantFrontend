@@ -9,6 +9,7 @@ import { AppContext } from "@/contexts/app.context";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import clsx from "clsx";
 import {
+  ChefHat,
   Cookie,
   Layers3Icon,
   SettingsIcon,
@@ -25,9 +26,15 @@ export default function ManageLayout() {
 
   const navData = [
     {
+      icon: <ChefHat strokeWidth={1.5} />,
+      path: path.kitchen,
+      canShow: user?.role === "CHEF",
+      tooltip: "Bếp",
+    },
+    {
       icon: <ShoppingCartIcon strokeWidth={1.5} />,
       path: path.manageOrder,
-      canShow: true,
+      canShow: user?.role !== "CHEF",
       tooltip: "Đơn hàng",
     },
     {
@@ -57,7 +64,7 @@ export default function ManageLayout() {
     {
       icon: <SettingsIcon strokeWidth={1.5} />,
       path: path.manageSettings,
-      canShow: true,
+      canShow: user?.role !== "CHEF",
       tooltip: "Cài đặt",
     },
   ];

@@ -14,6 +14,7 @@ export default function useTableQueryConfig() {
       page: queryParams.page ?? "1",
       limit: queryParams.limit ?? "8",
       table_number: queryParams.tableNumber,
+      capacity: queryParams.capacity,
     },
     isUndefined
   );

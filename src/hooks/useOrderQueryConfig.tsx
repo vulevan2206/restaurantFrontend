@@ -2,7 +2,7 @@ import useQueryParams from "@/hooks/useQueryParams";
 import { OrderListConfig } from "@/types/order.type";
 import { isUndefined, omitBy } from "lodash";
 
-export type OrderQueryConfig = {
+export type  OrderQueryConfig = {
   [key in keyof OrderListConfig]: string;
 };
 
@@ -12,7 +12,7 @@ export default function useOrderQueryConfig() {
   const orderQueryConfig = omitBy(
     {
       page: queryParams.page ?? "1",
-      limit: queryParams.limit ?? "8",
+      limit: queryParams.limit ?? "3",
       customer_name: queryParams.customerName,
       table_number: queryParams.tableNumber,
       status: queryParams.status,

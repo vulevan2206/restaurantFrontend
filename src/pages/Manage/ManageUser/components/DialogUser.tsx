@@ -64,6 +64,10 @@ export default function DialogUser({ user }: Props) {
       label: "Nhân viên",
       value: "EMPLOYEE",
     },
+    {
+      label: "Bếp",
+      value: "CHEF",
+    },
   ];
 
   const statusSelectionData: FormControlItem[] = [
