@@ -50,15 +50,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   };
 
-//   const handleSubmit = async () => {
-//     try {
-//       const res = await axios.post('/api/orders/payment/momo/create-qr', form)
-//       setPayUrl(res.data?.data?.payUrl)
-//     } catch (error) {
-//       console.error(error)
-//       alert('Error creating MoMo QR')
-//     }
-//   }
 
   return (
     <div style={{ maxWidth: 400, margin: '20px auto', padding: 20 }}>
