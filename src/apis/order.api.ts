@@ -22,11 +22,14 @@ export const createMomoPaymentQR = (body: MomoPaymentParams) =>
     body
   );
 
+<<<<<<< HEAD
   export const createMomoPaymentCard = async (body: MomoPaymentParams) => {
     return await http.post("orders/payment/momo/create-card", body);
   };
   
 
+=======
+>>>>>>> origin
 export const getUserOrder = (params: {
   customer_id: string;
   customer_name: string;

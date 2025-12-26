@@ -3,6 +3,8 @@ import useRouteElement from "@/hooks/useRouteElement";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import ChatbotWidget from "@/components/dev/Chatbot/ChatbotWidget";
+import { sendChatbotMessage } from "@/apis/chatbot.api";
 
 function App() {
   const routes = useRouteElement();
@@ -15,9 +17,14 @@ function App() {
       behavior: "smooth",
     });
   }, [location.pathname]);
+
   return (
     <div className="relative">
-      {routes} <ReactQueryDevtools initialIsOpen={false} />
+      {routes}
+      <ReactQueryDevtools initialIsOpen={false} />
+
+      <ChatbotWidget onSend={sendChatbotMessage} />
+
       <Toaster />
     </div>
   );
