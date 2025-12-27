@@ -171,9 +171,9 @@ export default function Table() {
             />
             <Button
               className="mt-4 w-full"
-              disabled={createSessionMutation.isPending}
+              disabled={createSessionMutation.isLoading}
             >
-              {createSessionMutation.isPending ? "Đang xử lý..." : "Đăng nhập"}
+              {createSessionMutation.isLoading ? "Đang xử lý..." : "Đăng nhập"}
             </Button>
           </form>
         </Form>

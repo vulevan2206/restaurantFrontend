@@ -1,6 +1,5 @@
 // import MomoPaymentForm from "./components/momoPaymentForm";
 import { useState } from 'react'
-import axios from 'axios'
 import { createMomoPaymentQR } from '@/apis/order.api'
 
 type MomoFormField = {
@@ -50,8 +49,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   };
 
-<<<<<<< HEAD
-=======
 //   const handleSubmit = async () => {
 //     try {
 //       const res = await axios.post('/api/orders/payment/momo/create-qr', form)
@@ -61,7 +58,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //       alert('Error creating MoMo QR')
 //     }
 //   }
->>>>>>> origin
 
   return (
     <div style={{ maxWidth: 400, margin: '20px auto', padding: 20 }}>

@@ -225,7 +225,7 @@ import { path } from "@/constants/path";
 import useOrderQueryConfig from "@/hooks/useOrderQueryConfig";
 import CountOfOrderStatus from "@/pages/Manage/ManageOrder/components/CountOfOrderStatus";
 import DialogCreateNewOrder from "@/pages/Manage/ManageOrder/components/DialogCreateNewOrder";
-import { OrderStatusType, Order } from "@/types/order.type"; // Assuming Order type exists in your types folder
+import { OrderStatusType } from "@/types/order.type"; // Assuming Order type exists in your types folder
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";

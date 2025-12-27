@@ -5,7 +5,7 @@ import { AppContext } from "@/contexts/app.context";
 import { toast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/utils/utils";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { io } from "socket.io-client";
 import { BASE_SOCKET_URL } from "@/constants/config";
 export default function MyOrder() {
