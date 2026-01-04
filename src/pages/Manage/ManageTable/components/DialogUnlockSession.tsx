@@ -81,28 +81,27 @@ export default function DialogUnlockSession({
               </p>
               <div className="space-y-1 text-sm">
                 <p>
-                  <span className="font-medium">Khách hàng:</span>{" "}
-                  {activeSession?.customer_name}
+                  <span className="text-sm font-semibold text-gray-700 mb-2">Khách hàng: {activeSession?.customer_name}</span>{" "} 
                 </p>
                 <p>
-                  <span className="font-medium">Mã khách:</span>{" "}
-                  {activeSession?.customer_id}
+                  <span className="text-sm font-semibold text-gray-700 mb-2">Mã khách: {activeSession?.customer_id}</span>{" "}
+                  
                 </p>
                 <p>
-                  <span className="font-medium">Đăng nhập lúc:</span>{" "}
-                  {activeSession?.logged_in_at
+                  <span className="text-sm font-semibold text-gray-700 mb-2">Đăng nhập lúc: {activeSession?.logged_in_at
                     ? new Date(activeSession.logged_in_at).toLocaleString(
                         "vi-VN"
                       )
                     : "N/A"}
+                    </span>{" "}
                 </p>
                 <p>
-                  <span className="font-medium">Hoạt động cuối:</span>{" "}
-                  {activeSession?.last_activity
+                  <span className="text-sm font-semibold text-gray-700 mb-2">Hoạt động cuối: {activeSession?.last_activity
                     ? new Date(activeSession.last_activity).toLocaleString(
                         "vi-VN"
                       )
                     : "N/A"}
+                    </span>{" "}
                 </p>
               </div>
             </div>
