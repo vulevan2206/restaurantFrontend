@@ -15,7 +15,9 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { tableNumber, customerName, resetUser } = useContext(AppContext);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false); // Trạng thái Dialog Logout
+  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false); // Trạng thái Sidebar Mobile
+
   const navData = [
     { id: 1, title: "Trang chủ", to: path.home, canAppear: true },
     { id: 2, title: "Thực đơn", to: path.menu, canAppear: true },
@@ -38,6 +40,7 @@ export default function Header() {
   });
 
   const navigate = useNavigate();
+
   const handleLogout = () => {
     customerLogoutMutation.mutate(parseInt(tableNumber), {
       onSuccess: (res) => {
@@ -45,9 +48,16 @@ export default function Header() {
           description: res.data.message,
         });
         resetUser();
+        setIsOpen(false);
+        setIsSheetOpen(false); // Đóng sidebar sau khi logout thành công
         navigate(path.home);
       },
     });
+  };
+
+  // Hàm tiện ích để đóng Sidebar nhanh
+  const handleLinkClick = () => {
+    setIsSheetOpen(false);
   };
 
   return (
@@ -82,32 +92,30 @@ export default function Header() {
           <div className="hidden lg:block">
             {!!tableNumber && !!customerName && (
               <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+                <DialogTrigger asChild>
                   <div className="cursor-pointer text-md font-semibold hover:text-danger transition-colors">
                     Đăng xuất
                   </div>
                 </DialogTrigger>
-                <DialogContent className="bg-background text-foreground rounded-lg p-6 shadow-lg max-w-sm ">
+                <DialogContent className="bg-background text-foreground rounded-lg p-6 shadow-lg max-w-sm">
                   <p className="text-center font-semibold mb-4">
                     Bạn có chắc chắn muốn đăng xuất?
                   </p>
-                  <p className="text-center mb-4">
+                  <p className="text-center mb-4 text-sm text-muted-foreground">
                     Nếu bạn đăng xuất, bạn sẽ không còn được xem các trạng thái
                     đơn hàng hiện tại của mình nữa, nhưng nhà hàng vẫn sẽ phục
                     vụ những món bạn đã đặt!
                   </p>
-                  <div className="flex items-center justify-center">
-                    <div className="flex items-center space-x-2">
-                      <Button variant="destructive" onClick={handleLogout}>
-                        Đăng xuất
-                      </Button>
-                      <Button
-                        onClick={() => setIsOpen(false)}
-                        className="bg-gray-400 text-white hover:bg-gray-500"
-                      >
-                        Hủy
-                      </Button>
-                    </div>
+                  <div className="flex items-center justify-center space-x-2">
+                    <Button variant="destructive" onClick={handleLogout}>
+                      Đăng xuất
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Hủy
+                    </Button>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -115,65 +123,72 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       <div className="flex items-center space-x-2">
         <ModeToggle />
         <OrderProductSheet />
         <div className="lg:hidden">
-          <Sheet>
-            <SheetTrigger>
-              <AlignJustifyIcon />
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <AlignJustifyIcon />
+              </Button>
             </SheetTrigger>
-            <SheetContent>
-              <div>
+            <SheetContent side="right">
+              <div className="mt-8 flex flex-col space-y-4">
                 {navData.map(
                   (navItem) =>
                     navItem.canAppear && (
-                      <div key={navItem.id}>
-                        <NavLink
-                          to={navItem.to}
-                          className={({ isActive }) =>
-                            clsx(
-                              "block my-2 px-2 py-2 text-md font-semibold hover:text-primary transition-colors",
-                              {
-                                "text-red-500": isActive,
-                              }
-                            )
-                          }
-                        >
-                          {navItem.title}
-                        </NavLink>
-                      </div>
+                      <NavLink
+                        key={navItem.id}
+                        to={navItem.to}
+                        onClick={handleLinkClick}
+                        className={({ isActive }) =>
+                          clsx(
+                            "px-2 py-2 text-lg font-semibold hover:text-primary transition-colors",
+                            {
+                              "text-red-500 border-l-4 border-red-500 pl-4":
+                                isActive,
+                            }
+                          )
+                        }
+                      >
+                        {navItem.title}
+                      </NavLink>
                     )
                 )}
+
+                {!!tableNumber && !!customerName && (
+                  <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                    <DialogTrigger asChild>
+                      <div className="cursor-pointer px-2 py-2 text-lg font-semibold text-destructive hover:opacity-80 transition-colors">
+                        Đăng xuất
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="bg-background text-foreground rounded-lg p-6 shadow-lg max-w-sm">
+                      <p className="text-center font-semibold mb-4">
+                        Xác nhận đăng xuất?
+                      </p>
+                      <div className="flex justify-around space-x-2">
+                        <Button
+                          variant="destructive"
+                          onClick={handleLogout}
+                          className="flex-1"
+                        >
+                          Đăng xuất
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => setIsOpen(false)}
+                          className="flex-1"
+                        >
+                          Hủy
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
-              {!!tableNumber && !!customerName && (
-                <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                  <DialogTrigger asChild onClick={() => setIsOpen(true)}>
-                    <div className="cursor-pointer px-2 py-2 my-2 text-md font-semibold hover:text-danger transition-colors">
-                      Đăng xuất
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="bg-background text-foreground rounded-lg p-6 shadow-lg max-w-sm ">
-                    <p className="text-center font-semibold mb-4">
-                      Bạn có chắc chắn muốn đăng xuất?
-                    </p>
-                    <p className="text-center mb-4">
-                      Nếu bạn đăng xuất, bạn sẽ không còn được xem các trạng
-                      thái đơn hàng hiện tại của mình nữa, nhưng nhà hàng vẫn sẽ
-                      phục vụ những món bạn đã đặt!
-                    </p>
-                    <div className="flex justify-around">
-                      <Button onClick={handleLogout}>Đăng xuất</Button>
-                      <Button
-                        onClick={() => setIsOpen(false)}
-                        className="bg-gray-400 text-white hover:bg-gray-500"
-                      >
-                        Hủy
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              )}
             </SheetContent>
           </Sheet>
         </div>

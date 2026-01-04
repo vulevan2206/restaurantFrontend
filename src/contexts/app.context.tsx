@@ -7,7 +7,7 @@ import {
   getTableNumberFromLocalStorage,
   getUserFromLocalStorage,
 } from "@/utils/auth";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface AppContextInterface {
   isAuthenticated: boolean;
@@ -26,11 +26,18 @@ interface AppContextInterface {
   resetUser: () => void;
 }
 
+// Hàm bổ trợ để lấy giỏ hàng từ LocalStorage khi khởi tạo
+const getProductOrdersFromLocalStorage = (): ProductOrder[] => {
+  if (typeof window === "undefined") return [];
+  const data = localStorage.getItem("productOrders");
+  return data ? JSON.parse(data) : [];
+};
+
 const initialAppContext: AppContextInterface = {
   isAuthenticated: Boolean(getAccessTokenFromLocalStorage()),
   setIsAuthenticated: () => null,
   reset: () => null,
-  productOrders: [],
+  productOrders: getProductOrdersFromLocalStorage(), // Lấy dữ liệu cũ nếu có
   setProductOrders: () => null,
   customerName: getCustomerNameFromLocalStorage(),
   setCustomerName: () => null,
@@ -49,9 +56,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     initialAppContext.isAuthenticated
   );
+  
+  // Khởi tạo state từ dữ liệu LocalStorage đã lấy ở initialAppContext
   const [productOrders, setProductOrders] = useState<ProductOrder[]>(
-    initialAppContext.productOrders ?? []
+    initialAppContext.productOrders
   );
+  
   const [customerName, setCustomerName] = useState<string>(
     initialAppContext.customerName
   );
@@ -63,6 +73,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [user, setUser] = useState<User | null>(initialAppContext.user);
 
+  // Tự động lưu productOrders vào LocalStorage mỗi khi có thay đổi
+  useEffect(() => {
+    localStorage.setItem("productOrders", JSON.stringify(productOrders));
+  }, [productOrders]);
+
   const reset = () => {
     setIsAuthenticated(false);
     setUser(null);
@@ -72,9 +87,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setCustomerId("");
     setCustomerName("");
     setTableNumber("");
+    setProductOrders([]); // Xóa giỏ hàng trong state khi logout
     localStorage.setItem("fd_customerId", "");
     localStorage.setItem("fd_customerName", "");
     localStorage.setItem("fd_tableNumber", "");
+    localStorage.removeItem("productOrders"); // Xóa giỏ hàng trong LocalStorage
   };
 
   return (

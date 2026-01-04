@@ -10,6 +10,14 @@ function App() {
   const routes = useRouteElement();
   const location = useLocation();
 
+  // Danh sách các tiền tố URL mà bạn KHÔNG muốn hiện chatbot
+  const hiddenChatbotPaths = ["/manage", "/login"];
+
+  // Kiểm tra xem URL hiện tại có bắt đầu bằng bất kỳ tiền tố nào trong mảng trên không
+  const isChatbotHidden = hiddenChatbotPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -23,7 +31,8 @@ function App() {
       {routes}
       <ReactQueryDevtools initialIsOpen={false} />
 
-      <ChatbotWidget onSend={sendChatbotMessage} />
+      {/* Chỉ hiển thị khi KHÔNG thuộc các đường dẫn bị ẩn */}
+      {!isChatbotHidden && <ChatbotWidget onSend={sendChatbotMessage} />}
 
       <Toaster />
     </div>

@@ -14,18 +14,36 @@ export default function QuantityController({ value = 0, setValue }: Props) {
   };
 
   const handleDecrease = () => {
-    if (value <= 1) return;
+    // Cho phép giảm xuống 0 thay vì chặn ở 1
+    if (value <= 0) return; 
     const newValue = value - 1;
     setValue && setValue(newValue);
   };
 
   return (
     <div className="flex items-center">
-      <Button size="icon" onClick={handleDecrease} disabled={value === 1}>
+      {/* Bỏ disabled={value === 1} để người dùng có thể nhấn về 0 */}
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={handleDecrease}
+        type="button"
+      >
         <MinusIcon />
       </Button>
-      <Input value={value} className="w-[30px] mx-1 px-2 text-center" />
-      <Button size="sm" onClick={handleIncrease}>
+      
+      <Input 
+        value={value} 
+        readOnly 
+        className="w-[40px] h-9 mx-1 px-1 text-center" 
+      />
+      
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={handleIncrease}
+        type="button"
+      >
         <PlusIcon />
       </Button>
     </div>

@@ -12,7 +12,6 @@ import {
 import { AppContext } from "@/contexts/app.context";
 import { toast } from "@/hooks/use-toast";
 import { OrderRequest } from "@/types/order.type";
-import { ProductOrder } from "@/types/product.type";
 import { formatCurrency } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
 import { produce } from "immer";
@@ -30,14 +29,22 @@ export default function OrderProductSheet() {
   const [openSheet, setOpenSheet] = useState(false);
 
   const setValue = (id: string) => (value: number) => {
-    setProductOrders((prev) =>
-      produce(prev, (draft: ProductOrder[]) => {
+    setProductOrders((prev) => {
+      if (value === 0) {
+        const nextState = prev.filter((item) => item.product._id !== id);
+        localStorage.setItem("productOrders", JSON.stringify(nextState));
+        return nextState;
+      }
+
+      const nextState = produce(prev, (draft) => {
         const existProduct = draft.find((obj) => obj.product._id === id);
         if (existProduct) {
           existProduct.buy_count = value;
         }
-      })
-    );
+      });
+      localStorage.setItem("productOrders", JSON.stringify(nextState));
+      return nextState;
+    });
   };
 
   const totalPrice = useMemo(() => {
@@ -68,6 +75,7 @@ export default function OrderProductSheet() {
           description: res.data.message,
         });
         setProductOrders([]);
+        localStorage.removeItem("productOrders");
         setOpenSheet(false);
       },
     });

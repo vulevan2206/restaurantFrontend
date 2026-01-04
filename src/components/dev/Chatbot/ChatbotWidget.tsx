@@ -55,7 +55,7 @@ export default function ChatbotWidget({
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[9999] font-sans">
+    <div className="fixed bottom-16 right-4 z-[9999] font-sans">
       {/* Floating Button */}
       {!open && (
         <button
