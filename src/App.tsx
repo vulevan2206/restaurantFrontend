@@ -5,15 +5,26 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ChatbotWidget from "@/components/dev/Chatbot/ChatbotWidget";
 import { sendChatbotMessage } from "@/apis/chatbot.api";
+import { useQuery } from "@tanstack/react-query";
+import * as productApi from "@/apis/product.api";
 
 function App() {
   const routes = useRouteElement();
   const location = useLocation();
 
-  // Danh sách các tiền tố URL mà bạn KHÔNG muốn hiện chatbot
-  const hiddenChatbotPaths = ["/manage", "/login"];
+  // 1. Lấy danh sách sản phẩm để truyền vào Chatbot
 
-  // Kiểm tra xem URL hiện tại có bắt đầu bằng bất kỳ tiền tố nào trong mảng trên không
+  const { data: productsResponse } = useQuery({
+    queryKey: ["products", { limit: "100", status: "AVAILABLE" }],
+    queryFn: () =>
+      productApi.getProducts({ limit: "100", status: "AVAILABLE" }),
+    staleTime: 1000 * 60 * 10,
+  });
+
+  // 2. Truy xuất đúng vào mảng Product[] từ SuccessResponse -> PaginationResponse
+  const allProducts = productsResponse?.data?.data?.content || [];
+
+  const hiddenChatbotPaths = ["/manage", "/login"];
   const isChatbotHidden = hiddenChatbotPaths.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -31,8 +42,9 @@ function App() {
       {routes}
       <ReactQueryDevtools initialIsOpen={false} />
 
-      {/* Chỉ hiển thị khi KHÔNG thuộc các đường dẫn bị ẩn */}
-      {!isChatbotHidden && <ChatbotWidget onSend={sendChatbotMessage} />}
+      {!isChatbotHidden && (
+        <ChatbotWidget onSend={sendChatbotMessage} allProducts={allProducts} />
+      )}
 
       <Toaster />
     </div>
