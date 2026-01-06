@@ -19,6 +19,14 @@ interface Props {
 }
 
 export default function OrderTable({ orders }: Props) {
+  const sortedOrders: OrderItem[] = orders
+  ? [...orders].sort((a, b) => {
+      const timeA = new Date(a.updatedAt || a.createdAt).getTime();
+      const timeB = new Date(b.updatedAt || b.createdAt).getTime();
+
+      return timeB - timeA; // 🔥 mới → cũ
+    })
+  : [];
   return (
     <Table className="font-semibold">
       <TableHeader>
@@ -33,8 +41,8 @@ export default function OrderTable({ orders }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orders && orders.length > 0 ? (
-          orders.map((order: OrderItem) => {
+        {sortedOrders.length > 0 ? (
+          sortedOrders.map((order: OrderItem) => {
             const products = Array.isArray(order.product)
               ? order.product
               : [order.product];
