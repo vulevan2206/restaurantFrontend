@@ -29,14 +29,14 @@ export default function MomoPaymentPage() {
 
   const [payUrl, setPayUrl] = useState<string | null>(null);
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
 
-  setForm(prev => ({
-    ...prev,
-    [name]: value
-  }))
-}
+    setForm(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
 
 
   const handleSubmit = async () => {
@@ -49,15 +49,15 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
   };
 
-//   const handleSubmit = async () => {
-//     try {
-//       const res = await axios.post('/api/orders/payment/momo/create-qr', form)
-//       setPayUrl(res.data?.data?.payUrl)
-//     } catch (error) {
-//       console.error(error)
-//       alert('Error creating MoMo QR')
-//     }
-//   }
+  //   const handleSubmit = async () => {
+  //     try {
+  //       const res = await axios.post('/api/orders/payment/momo/create-qr', form)
+  //       setPayUrl(res.data?.data?.payUrl)
+  //     } catch (error) {
+  //       console.error(error)
+  //       alert('Error creating MoMo QR')
+  //     }
+  //   }
 
   return (
     <div style={{ maxWidth: 400, margin: '20px auto', padding: 20 }}>

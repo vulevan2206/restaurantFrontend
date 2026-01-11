@@ -22,10 +22,10 @@ export const createMomoPaymentQR = (body: MomoPaymentParams) =>
     body
   );
 
-  export const createMomoPaymentCard = async (body: MomoPaymentParams) => {
-    return await http.post("orders/payment/momo/create-card", body);
-  };
-  
+export const createMomoPaymentCard = async (body: MomoPaymentParams) => {
+  return await http.post("orders/payment/momo/create-card", body);
+};
+
 
 export const getUserOrder = (params: {
   customer_id: string;
@@ -67,6 +67,6 @@ export const findCustomer = (customer_id: string) =>
 
 export const getStatisticsOrderByTable = (params: OrderQueryConfig) =>
   http.get<SuccessResponse<PaginationResponse<StatisticsOrderByTableResponse>>>(
-    "orders/statistics-order-by-table", 
+    "orders/statistics-order-by-table",
     { params }
   );
